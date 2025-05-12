@@ -1,0 +1,45 @@
+body {
+    background-color: #121212; /* Fond sombre */
+    color: #ffffff; /* Texte blanc */
+}
+
+.bg-white {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.btn-dark {
+    background-color: #333;
+    border-color: #444;
+}
+
+.btn-dark:hover {
+    background-color: #555;
+}
+
+.button-MP {
+    background: #007BFF;
+    border: none;
+    color: white;
+}
+
+.button-MP:hover {
+    background: #0056b3;
+}
+
+.cute-card {
+    background-color: #2b2b2b;
+}
+
+.card-title {
+    color: #eaeaea;
+}
+.card-text {
+    color: #eaeaea;
+}
+
+.btn-success {
+    background-color: #5cb85c;
+}
+

@@ -1,0 +1,14 @@
+body {
+    background-color: #f8f9fa; /* Couleur claire */
+    color: #212529;
+}
+
+button {
+    transition: 0.3s ease-in-out;
+}
+
+.bg-white {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+

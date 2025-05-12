@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <title>{{translations["information-title"][lang]}}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='light.css') }}">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+
+    <script src="{{ url_for('static', filename='scripts/main-page.js') }}"></script>
+</head>
+<body>
+    <header class="bg-dark text-white py-3">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            
+            <!-- Left: Navigation Links -->
+            <nav class="d-flex align-items-center gap-3">
+                <a href="{{ url_for('home') }}" class="nav-link text-white fw-semibold px-2">🏠 {{translations["home"][lang]}}</a>
+                <a href="{{ url_for('information') }}" class="nav-link text-white fw-semibold px-2">ℹ️ {{translations["information-title"] [lang]}}</a>
+            </nav>
+    
+    
+            <!-- Center: Title -->
+            <h1 class="text-center flex-grow-1 m-0">🌐 Free Video Downloader 999</h1>
+    
+            <!-- Right: Dark Mode Toggle -->
+            <div class="d-flex align-items-center gap-2">
+                <form method="POST" action="{{ url_for('set_language') }}" class="me-2">
+                    <select name="lang" class="form-select form-select-sm bg-dark text-white border-light"
+                            onchange="this.form.submit()">
+                        <option value="en" {% if lang == 'en' %}selected{% endif %}>🇬🇧 EN</option>
+                        <option value="fr" {% if lang == 'fr' %}selected{% endif %}>🇫🇷 FR</option>
+                    </select>
+                </form>
+            
+                <button id="toggle-dark-mode"
+                        class="btn btn-outline-light"
+                        data-light="{{ url_for('static', filename='light.css') }}"
+                        data-dark="{{ url_for('static', filename='dark.css') }}">
+                    🌙 {{ translations["toggle-dark-mode"][lang] }}
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container mt-5 text-center">
+        <h1>{{translations["information-title"][lang]}}</h1>
+        <div class="p-4 bg-white shadow rounded text-start">
+            <h2>{{ translations["about"][lang] }}</h2>
+            <p>{{ translations["about-paragraph-1"][lang] }}</p>
+            <p>{{ translations["about-paragraph-2"][lang] }}</p>
+        </div>
+        <hr class="my-4">
+
+        <div class="p-4 bg-white shadow rounded text-start">
+            <h2>{{ translations["utilisation"][lang] }}</h2>
+            <ol>
+                <li>{{translations["utilisation-paragraph-1"][lang]}}</li>
+                <li>{{translations["utilisation-paragraph-2"][lang]}}</li>
+                <li>
+                    {{translations["utilisation-paragraph-3.1"][lang]}}
+                    <a href="https://ffmpeg.org/download.html" target="_blank" rel="noopener noreferrer">FFmpeg</a> {{translations["utilisation-paragraph-3.2"][lang]}}
+                </li>
+                <li>{{translations["utilisation-paragraph-4"][lang]}}</li>
+                <li>{{translations["utilisation-paragraph-5"][lang]}}</li>
+            </ol>
+        </div>
+        <hr class="my-4">
+        <div class="p-4 bg-white shadow rounded text-start">
+            <h2>{{ translations["contact"][lang] }}</h2>
+            <p>{{ translations["contact-paragraph"][lang] }}</p>
+            <p>
+                <strong>Email:</strong>
+                <a href="mailto:mikaelcarrenard@yahoo.ca">mikaelcarrenard@yahoo.ca</a>
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>

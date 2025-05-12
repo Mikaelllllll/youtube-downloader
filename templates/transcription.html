@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{translations["transcription-title"][lang]}}</title>
+
+    <!-- Bootstrap and custom styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='light.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts/transcription.js') }}"></script>
+</head>
+<body>
+    <header class="bg-dark text-white py-3">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            
+            <!-- Left: Navigation Links -->
+            <nav class="d-flex align-items-center gap-3">
+                <a href="{{ url_for('home') }}" class="nav-link text-white fw-semibold px-2">🏠 {{translations["home"][lang]}}</a>
+                <a href="{{ url_for('information') }}" class="nav-link text-white fw-semibold px-2">ℹ️ {{translations["information-title"] [lang]}}</a>
+            </nav>
+    
+    
+            <!-- Center: Title -->
+            <h1 class="text-center flex-grow-1 m-0">🌐 Free Video Downloader 999</h1>
+    
+            <!-- Right: Dark Mode Toggle -->
+            <div class="d-flex align-items-center gap-2">
+                <form method="POST" action="{{ url_for('set_language') }}" class="me-2">
+                    <select name="lang" class="form-select form-select-sm bg-dark text-white border-light"
+                            onchange="this.form.submit()">
+                        <option value="en" {% if lang == 'en' %}selected{% endif %}>🇬🇧 EN</option>
+                        <option value="fr" {% if lang == 'fr' %}selected{% endif %}>🇫🇷 FR</option>
+                    </select>
+                </form>
+            
+                <button id="toggle-dark-mode"
+                        class="btn btn-outline-light"
+                        data-light="{{ url_for('static', filename='light.css') }}"
+                        data-dark="{{ url_for('static', filename='dark.css') }}">
+                    🌙 {{ translations["toggle-dark-mode"][lang] }}
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container mt-5 text-center">
+        <h1 class="mb-4"> {{translations["transcription-title"][lang]}}</h1>
+
+        <div id="loading-spinner" class="d-none mt-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Transcribing...</span>
+            </div>
+            <p class="mt-2 text-muted">{{translations["spinner-transcription"][lang]}}</p>
+        </div>
+        <form id="transcription-form" class="p-4 bg-white shadow rounded" method="POST" action="/transcription">
+            
+            
+            <div class="mb-3">
+                <label for="url" class="form-label">{{translations["url_label"][lang]}}</label>
+                <input type="text" id="url" name="url" class="form-control" placeholder="https://www.youtube.com/watch?v=XXXXX" required>
+            </div>
+            <button type="submit" class="btn btn-success mt-4 w-100">{{translations["transcribe-video"][lang]}}</button>
+        </form>
+
+
+        {% if transcript %}
+        <div class="mt-5 text-start p-4 bg-light shadow rounded">
+            <form method="POST" action="/translate">
+                <input type="hidden" name="transcript" value="{{ transcript }}">
+                <label for="language" class="form-label fw-bold text-secondary">Translation:</label>
+                <div class="input-group mb-3">
+                    <select class="form-select" id="language" name="language">
+                        <option value="" disabled selected>{{translations["select-language"][lang]}}</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">{{translations["translate"][lang]}}</button>
+                </div>
+            </form>
+        
+            <h4 class="text-success mb-3">📄 Transcript:</h4>
+            <pre id="transcript-text">{{ transcript }}</pre>
+            <div>
+                <button id="copy-button" class="btn btn-info mt-3">
+                    <img src="{{ url_for('static', filename='assets/copy-icon2.png') }}"
+                         class="cute-icon" alt="Copy Icon">
+                </button>
+               <a href="{{ url_for('download_transcript', text=transcript) }}" class="btn btn-info mt-3">
+                    <img src="{{ url_for('static', filename='assets/download-icon.png') }}"
+                               class="cute-icon" alt="Download Icon">
+                </a>
+            </div>
+           
+        </div>
+        {% elif error %}
+        <div class="mt-5 text-start p-4 bg-danger text-white shadow rounded">
+            <h4>Error</h4>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div id="button-div" class="text-center mt-4">
+        <h3>{{translations["free-resources"][lang]}}:</h3>
+        <div class="mb-3">
+            <h4> <u>{{translations["download-options"][lang]}}</u>  </h4> 
+
+            <div id="card-container" class="d-flex flex-wrap justify-content-center gap-3 my-4">
+                <!-- Cute MP3 Downloader Card Button -->
+                <a href="/mp3" class="text-decoration-none">
+                  <div class="card cute-card shadow-sm text-center mx-auto p-3 mb-4">
+                    <div class="d-flex justify-content-center align-items-center icon-row mb-2">
+                      <img src="{{ url_for('static', filename='assets/77694-logo-computer-youtube-icons-png-file-hd.png') }}"
+                           class="cute-icon" alt="YouTube Logo">
+                      <img src="{{ url_for('static', filename='assets/421-4215087_hd-black-arrow-png-black-arrow-transparent-background-removebg-preview.png') }}"
+                           class="cute-icon arrow-icon" alt="Arrow">
+                      <img src="{{ url_for('static', filename='assets/png-clipart-vista-rtm-wow-icon-mp3-mp3-music-icon-thumbnail-removebg-preview.png') }}"
+                           class="cute-icon" alt="MP3 Icon">
+                    </div>
+                    <div class="card-body p-2">
+                      <h6 class="card-title fw-bold mb-1">🎵 {{translations["download-mp3"][lang]}}</h6>
+                      <p class="card-text">{{translations["mp3-convertir"][lang]}}</p>
+                      <button class="btn btn-success btn-sm rounded-pill px-3">{{translations["start"][lang]}}</button>
+                    </div>
+                  </div>
+                </a>
+
+                <!-- transcription Card Button -->
+                <a href="/" class="text-decoration-none">
+                    <div class="card cute-card shadow-sm text-center mx-auto p-3 mb-4">
+                        <div class="d-flex justify-content-center align-items-center icon-row mb-2">
+                            <img src="{{ url_for('static', filename='assets/77694-logo-computer-youtube-icons-png-file-hd.png') }}"
+                                 class="cute-icon" alt="YouTube Logo">
+                            <img src="{{ url_for('static', filename='assets/421-4215087_hd-black-arrow-png-black-arrow-transparent-background-removebg-preview.png') }}"
+                                 class="cute-icon arrow-icon" alt="Arrow">
+                            <img src="{{ url_for('static', filename='assets/video-download-icon.png') }}"
+                                 class="cute-icon" alt="Video Icon">
+                        </div>
+                        <div class="card-body p-2">
+                            <h6 class="card-title fw-bold mb-1">🎬 {{translations["video-download"][lang]}}</h6>
+                            <p class="card-text">{{translations["title"][lang]}}</p>
+                            <button class="btn btn-success btn-sm rounded-pill px-3">{{translations["start"][lang]}}</button>
+                        </div> 
+                    </div>
+                </a>          
+            </div>
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message">
+                    {{translations["success-copy"][lang]}}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

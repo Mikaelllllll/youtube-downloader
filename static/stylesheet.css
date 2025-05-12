@@ -1,0 +1,56 @@
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+body {
+    background-color: #212529;
+    color: #f8f9fa;
+}
+
+.cute-card {
+    width: 260px; /* or 220px for extra compact */
+    border: none;
+    border-radius: 1rem;
+    background-color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+nav .nav-link {
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 5px;
+}
+
+nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffc107 !important;
+}
+
+
+
+
+.cute-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.icon-row {
+    gap: 0.6rem;
+}
+
+.cute-icon {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+}
+
+.arrow-icon {
+    height: 24px;
+    margin: 0 0.2rem;
+}
+
+
+
+
+
+
